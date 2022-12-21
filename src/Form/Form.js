@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { debounce } from "radash";
+
 function Form() {
     const [form, setForm] = useState({
         title: '',
         content: ''
     });
 
-    const handleChange = (name, value) => {
-        setForm({...form, [name]: value});
-    }
+    const handleChange = debounce({ delay: 700 }, (name, value) => {
+        setForm({...form, [name]: value });
+    });
+
     return (
         <>
             <section className="text-white w-[600px] p-4">
@@ -25,6 +28,7 @@ function Form() {
                         onChange={(e) => handleChange(e.target.name, e.target.value)}
                         />
                     </div>
+                    <p>{form.title} - {form.content}</p>
                 </form>
             </section>
         </>
