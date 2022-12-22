@@ -2,14 +2,14 @@ import { useState } from "react";
 import { debounce } from "radash";
 
 function Form() {
-    const [form, setForm] = useState({
+    const [post, setPost] = useState({
         id: '',
         title: '',
         content: ''
     });
 
     const handleChange = debounce({ delay: 700 }, (name, value) => {
-        setForm({...form, [name]: value });
+        setPost({...post, [name]: value });
     });
 
     return (
