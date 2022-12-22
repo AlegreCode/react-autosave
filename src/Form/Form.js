@@ -3,6 +3,7 @@ import { debounce } from "radash";
 
 function Form() {
     const [form, setForm] = useState({
+        id: '',
         title: '',
         content: ''
     });
@@ -28,7 +29,6 @@ function Form() {
                         onChange={(e) => handleChange(e.target.name, e.target.value)}
                         />
                     </div>
-                    <p>{form.title} - {form.content}</p>
                 </form>
             </section>
         </>
