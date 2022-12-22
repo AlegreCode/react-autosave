@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { debounce } from "radash";
+import { v4 as uuidv4 } from "uuid";
+import database from "../firebase/firebase-config";
+import { onValue, ref, set, update } from "firebase/database";
 
 function Form() {
     const [post, setPost] = useState({
@@ -9,7 +12,31 @@ function Form() {
     });
 
     const handleChange = debounce({ delay: 700 }, (name, value) => {
-        setPost({...post, [name]: value });
+        if (!post.id) {
+            const newId = uuidv4();
+            setPost({...post, id: newId, [name]: value});
+        }else {
+            setPost({...post, [name]: value });
+        }
+
+        const postRef = ref(database, `posts/${post.id}`);
+        onValue(postRef, (snapshot) => {
+            if (!snapshot.exists()) {
+                set(postRef, {
+                    id: post.id,
+                    title: post.title,
+                    content: post.content
+                }).then(() => console.log("POST CREATED."));
+            } else {
+                const objUpdate = {};
+                objUpdate[`posts/${post.id}`] = {
+                    id: post.id,
+                    title: post.title,
+                    content: post.content
+                }
+                update(ref(database), objUpdate).then(() => console.log("POST UPDATED."));
+            }
+        });
     });
 
     return (
@@ -30,6 +57,7 @@ function Form() {
                         />
                     </div>
                 </form>
+                <p>{post.id} - {post.title} - {post.content}</p>
             </section>
         </>
     )
