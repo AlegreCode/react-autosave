@@ -7,7 +7,8 @@ const firebaseConfig = {
   projectId: "react-firebase-autosave",
   storageBucket: "react-firebase-autosave.appspot.com",
   messagingSenderId: "575064129636",
-  appId: "1:575064129636:web:8bf18831ffb576bde55f71"
+  appId: "1:575064129636:web:8bf18831ffb576bde55f71",
+  databaseURL: "https://react-firebase-autosave.firebaseio.com"
 };
 
 const app = initializeApp(firebaseConfig);
