@@ -5,12 +5,12 @@ import checkbox from "react-useanimations/lib/checkBox";
 function StatusBar(props) {
     return (
         <>
-            {props.loading &&
-            <div className="flex justify-center items-center gap-1">
-                <span className="text-green-700">Loading...</span><UseAnimations animation={loading} size={36} strokeColor={"#15803d"} />
+            {props.sending &&
+            <div className="flex justify-center items-center">
+                <span className="text-green-700">Sending...</span><UseAnimations animation={loading} size={36} strokeColor={"#15803d"} />
             </div>
             }
-            {!props.loading &&
+            {!props.sending &&
             <div className="flex justify-center items-center gap-1">
                 <span className="text-green-700">Saved</span><UseAnimations reverse={true} animation={checkbox} size={36} strokeColor={"#15803d"} autoplay={true} />
             </div>
