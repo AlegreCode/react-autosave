@@ -3,6 +3,7 @@ import { debounce } from "radash";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../firebase/firebase-config";
 import { doc, setDoc } from "firebase/firestore";
+import StatusBar from "../statusbar/StatusBar";
 
 function Form() {
     const [post, setPost] = useState({
@@ -11,13 +12,19 @@ function Form() {
         content: ''
     });
 
+    const [status, setStatus] = useState({ sending: false });
+
     const handleChange = debounce({ delay: 700 }, (name, value) => {
         !post.id ? setPost({...post, id: uuidv4(), [name]: value}) : setPost({...post, [name]: value});
+        setStatus({sending: true});
     });
     
     useEffect(() => {
         if (post.id) {
-            setDoc(doc(db, "posts", post.id), { title: post.title, content: post.content});            
+            setDoc(doc(db, "posts", post.id), { title: post.title, content: post.content})
+                .then(() => {
+                    setStatus({sending: false});
+                });
         }
     });
 
@@ -25,7 +32,13 @@ function Form() {
         <>
             <section className="text-white w-[600px] p-4">
                 <header className="text-white text-4xl text-center py-4">Form Autosave</header>
-                <form>
+                <div className="py-2 flex justify-between items-center gap-1 border-y-2 border-green-700">
+                    <span className="text-green-700">STATUS:</span> { post.id &&
+                        <StatusBar sending={status.sending}/>
+                    }
+                        
+                </div>
+                <form className="mt-5">
                     <div>
                         <label className="w-full">Title:</label>
                         <input type="text" name="title" placeholder="Title" className="w-full p-2 rounded bg-gray-700 my-2"
@@ -39,7 +52,6 @@ function Form() {
                         />
                     </div>
                 </form>
-                <p>{post.id} - {post.title} - {post.content}</p>
             </section>
         </>
     )
