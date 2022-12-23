@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { debounce } from "radash";
 import { v4 as uuidv4 } from "uuid";
-import database from "../firebase/firebase-config";
-import { onValue, ref, set, update } from "firebase/database";
+import { db } from "../firebase/firebase-config";
+import { doc, setDoc } from "firebase/firestore";
 
 function Form() {
     const [post, setPost] = useState({
@@ -12,31 +12,13 @@ function Form() {
     });
 
     const handleChange = debounce({ delay: 700 }, (name, value) => {
-        if (!post.id) {
-            const newId = uuidv4();
-            setPost({...post, id: newId, [name]: value});
-        }else {
-            setPost({...post, [name]: value });
+        !post.id ? setPost({...post, id: uuidv4(), [name]: value}) : setPost({...post, [name]: value});
+    });
+    
+    useEffect(() => {
+        if (post.id) {
+            setDoc(doc(db, "posts", post.id), { title: post.title, content: post.content});            
         }
-
-        const postRef = ref(database, `posts/${post.id}`);
-        onValue(postRef, (snapshot) => {
-            if (!snapshot.exists()) {
-                set(postRef, {
-                    id: post.id,
-                    title: post.title,
-                    content: post.content
-                }).then(() => console.log("POST CREATED."));
-            } else {
-                const objUpdate = {};
-                objUpdate[`posts/${post.id}`] = {
-                    id: post.id,
-                    title: post.title,
-                    content: post.content
-                }
-                update(ref(database), objUpdate).then(() => console.log("POST UPDATED."));
-            }
-        });
     });
 
     return (
