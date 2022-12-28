@@ -16,17 +16,17 @@ function Form() {
 
     const handleChange = debounce({ delay: 700 }, (name, value) => {
         !post.id ? setPost({...post, id: uuidv4(), [name]: value}) : setPost({...post, [name]: value});
-        setStatus({sending: true});
     });
     
     useEffect(() => {
         if (post.id) {
+            setStatus({sending: true});
             setDoc(doc(db, "posts", post.id), { title: post.title, content: post.content})
                 .then(() => {
                     setStatus({sending: false});
                 });
         }
-    });
+    }, [post]);
 
     return (
         <>
