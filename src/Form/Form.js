@@ -34,7 +34,7 @@ function Form() {
                 <header className="text-white text-4xl text-center py-4">Form Autosave</header>
                 <div className="py-2 flex justify-between items-center gap-1 border-y-2 border-green-700">
                     <span className="text-green-700">STATUS:</span> { post.id &&
-                        <StatusBar sending={status.sending}/>
+                        <StatusBar sending={ status.sending }/>
                     }
                         
                 </div>
