@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCTD2srVKg6vqXUF_2VqKu5F2yEKHmXxlk",
-  authDomain: "react-firebase-autosave.firebaseapp.com",
-  projectId: "react-firebase-autosave",
-  storageBucket: "react-firebase-autosave.appspot.com",
-  messagingSenderId: "575064129636",
-  appId: "1:575064129636:web:8bf18831ffb576bde55f71"
+  apiKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx", // Copia aquí los parámetros de tu app de cloud firestore
+  authDomain: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  projectId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  storageBucket: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  messagingSenderId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  appId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 };
 
 const app = initializeApp(firebaseConfig);
